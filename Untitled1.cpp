@@ -39,7 +39,7 @@ typedef struct Produit
 		printf("\t*	6  - Alimenter le stock\t\t\t\t*\n");
 		printf("\t*	7  - Supprimer les produits\t\t\t*\n");
 		printf("\t*	8  - Statistique de vente\t\t\t*\n");
-		printf("\t*	0  - Statistique de vente\t\t\t*\n");
+		printf("\t*	0  - fermer \t\t\t\t\t*\n");
 		printf("\t*********************************************************\n");	
 		printf("\n\n\n\n");	
 		//sleep(1);
@@ -53,68 +53,12 @@ typedef struct Produit
 		
 		if(choix==0)
 		return 0;
-		
-		if(choix == 3 )//Lister tous les produits par :
-			{
-				do
-				{
-					printf("Lister tous les produits par :\n");
-					printf("1 - lister tous les produits selon l’ordre alphabétique  croissant du nom.\n");
-					printf("2 - lister tous les produits selon l’ordre  décroissant du prix.\n");
-					printf("\nChoisissez le numéro de l'opération que vous souhaitez effectuer : ");
-					scanf("%d",&ch);
-					switch(ch)
-					{
-						case 0:
-							Affichage();
-							break;
-						case 1:
-							return 31;
-							break;
-						case 2:
-							return 32;
-							break;
-					}
-											
-				}while(ch!=1 || ch!=2 || ch!=0);
-				
-			}
-		else if (choix == 5) //Rechercher les produits Par 
-			{
-				
-				do
-				{
-					printf("Rechercher les produits Par : \n");
-					printf("1 - Code.\n");
-					printf("2 - Quantité.\n");
-					printf("3 - Etat du stock: permet d’afficher les produits dont la quantité est inférieure à 3.\n");
-					printf("0 - Accueil\n");
-					printf("\nChoisissez le numéro de l'opération que vous souhaitez effectuer : ");
-					scanf("%d",&ch);
-					switch(ch)
-					{
-						case 0:
-							Affichage();
-							break;
-						case 1:
-							return 51;
-							break;
-						case 2:
-							return 52;
-							break;
-						case 3:
-							return 53;
-							break;
-					}
-				}while(ch!=1 || ch!=2 || ch!=3 || ch!=0);
-			}
-			
 	
 		return choix;
 	}
-	void AjouterUnProduit()//1  - Ajouter un nouveau produit//son code, son nom, sa quantité, et son prix.
+	void AjouterUnProduit(produit T[],int n)//1  - Ajouter un nouveau produit//son code, son nom, sa quantité, et son prix.
 	{
-		int n ;
+		
 		produit p1;
 		printf("Entrer le code : ");
 		scanf("%d",&p1.code);
@@ -206,7 +150,7 @@ typedef struct Produit
 		}
 	}
 	
-	float AcheterProduit(produit T[])//4  - Acheter produit
+	void AcheterProduit(produit T[])//4  - Acheter produit
 	{
 		cass:
 			int code,qnt;
@@ -248,7 +192,7 @@ typedef struct Produit
 			T[index].dat.mont = dt->tm_mon+1;
 			T[index].dat.year = dt->tm_year+1900;
 			
-			return (T[index].prix+0.15)*qnt;
+			
 		
 	}
 
@@ -268,22 +212,25 @@ typedef struct Produit
 						break;
 					}
 			}
-			
-		printf("\nLe code = %d  \tLe nom = %s  \tPrix TTC = %.2fDH  \t Qnt  = %d \t",T[index].code,T[index].nom,T[index].prix+0.15,T[index].quantite );
+			if(index==-1) printf("il n'y a pas");
+			else
+			printf("\nLe code = %d  \tLe nom = %s  \tPrix TTC = %.2fDH  \t Qnt  = %d \t",T[index].code,T[index].nom,T[index].prix+0.15,T[index].quantite );
 		}
 		else if (a==52) //RACHERCHE AVEC UNE QUANTITE
 		{
 			printf("Entrez la quantite rechercher : ");
 			scanf("%d",&code);
+			
 			for(int i=0;i<=9;i++)
 			{
 				if(T[i].quantite==code)
 					{
 						index = i;
 						printf("\nLe code = %d  \tLe nom = %s  \tPrix TTC = %.2fDH  \t Qnt  = %d \t",T[index].code,T[index].nom,T[index].prix+0.15,T[index].quantite );
+						 
 					}
 			}
-			
+			if(index==-1) printf("il n'y a pas");
 		}
 		else if (a==53)//Etat du stock: permet d’afficher les produits dont la quantité est inférieure à 3
 		{
@@ -351,10 +298,16 @@ typedef struct Produit
 			}		
 		}
 	}
+
+	void printSizeOfIntArray(produit intArray[])
+	{
+	    printf("sizeof of the parameter is: %d\n", (int) sizeof(intArray));
+	}
+
 int main()
 	{
-			produit T[10];
-			int totalPrix; 
+			produit T[100];
+			 
 		 {		 
 		//DATA
 			strcpy(T[0].nom,"ABDELLAH");
@@ -363,6 +316,10 @@ int main()
 			strcpy(T[3].nom,"ERRAY");
 			strcpy(T[4].nom,"MALAK");
 			strcpy(T[5].nom,"YASSIN");
+			strcpy(T[6].nom,"CHRIF");
+			strcpy(T[7].nom,"AHMAD");
+			strcpy(T[8].nom,"AICHA");
+			strcpy(T[9].nom,"ABDELLAH");
 			strcpy(T[6].nom,"CHRIF");
 			strcpy(T[7].nom,"AHMAD");
 			strcpy(T[8].nom,"AICHA");
@@ -378,6 +335,11 @@ int main()
 			T[7].code = 6 ;
 			T[8].code = 8 ;
 			T[9].code = 10 ;
+			T[6].code = 7 ;
+			T[7].code = 6 ;
+			T[8].code = 8 ;
+			T[9].code = 10 ;
+			
 			
 			T[0].quantite = 133 ;
 			T[1].quantite = 243 ;
@@ -385,6 +347,10 @@ int main()
 			T[3].quantite = 2 ;
 			T[4].quantite = 1 ;
 			T[5].quantite = 54 ;
+			T[6].quantite = 7 ;
+			T[7].quantite = 32 ;
+			T[8].quantite = 52 ;
+			T[9].quantite = 2 ;
 			T[6].quantite = 7 ;
 			T[7].quantite = 32 ;
 			T[8].quantite = 52 ;
@@ -400,43 +366,108 @@ int main()
 			T[7].prix = 61 ;
 			T[8].prix = 52 ;
 			T[9].prix = 21 ;
+			T[6].prix = 70 ;
+			T[7].prix = 61 ;
+			T[8].prix = 52 ;
+			T[9].prix = 21 ;
 		
 }
-		
+		int totalPrix;
 		int choix ;
+		int ch ;
+		int n = 0;
 		ret:
-		choix = Affichage();
-		
-		switch(choix)
-		{
-			case 1://1  - Ajouter un nouveau produit
-					AjouterUnProduit();			
-				break;
-			case 2://2  - Ajouter plusieurs nouveaux produits
-					AjouterPlusieursProduits();
-				break;
-			case 3://3  - Lister tous les produits
-					ListerProduitNom(T);		
-				break;
-			case 4://4  - Acheter produit
-					AcheterProduit(T);
-				break;
-			case 5://5  - Rechercher les produits Par
-							
-				break;
-			case 6://	6  - Alimenter le stock
-							
-				break;
-			case 7://7  - Supprimer les produits
-							
-				break;
-			case 8://8  - Statistique de vente
-							
-				break;
-
-		}
-		
-		goto ret;
+			printSizeOfIntArray(T);
+			
+//		while(T[n].code!='\0')
+//		{
+//			n++;
+//		}
+//		printf("%d",sizeof(T));
+			
+			
+//		choix = Affichage();
+//		
+//		switch(choix)
+//		{
+//			case 1://1  - Ajouter un nouveau produit
+//					AjouterUnProduit(T,0);			
+//				break;
+//			case 2://2  - Ajouter plusieurs nouveaux produits
+//					AjouterPlusieursProduits();
+//				break;
+//			case 3://3  - Lister tous les produits
+//						do
+//						{
+//							printf("Lister tous les produits par :\n");
+//							printf("1 - lister tous les produits selon l’ordre alphabetique  croissant du nom.\n");
+//							printf("2 - lister tous les produits selon l’ordre  decroissant du prix.\n");
+//							printf("0 - Accueil");
+//							printf("\nChoisissez le numero de l'operation que vous souhaitez effectuer : ");
+//							scanf("%d",&ch);
+//							switch(ch)
+//							{
+//								case 0:
+//									Affichage();
+//									break;
+//								case 1:
+//										ListerProduitNom(T);	
+//									break;
+//								case 2:
+//									ListerProduitPrix(T);
+//									break;
+//							}
+//													
+//						}while(ch!=1 || ch!=2 || ch!=0);
+//				break;
+//			case 4://4  - Acheter produit
+//					 AcheterProduit(T);
+//				break;
+//			case 5://5  - Rechercher les produits Par
+//							
+//				do
+//				{
+//					printf("Rechercher les produits Par : \n");
+//					printf("1 - Code.\n");
+//					printf("2 - Quantité.\n");
+//					printf("3 - Etat du stock: permet d’afficher les produits dont la quantité est inférieure à 3.\n");
+//					printf("0 - Accueil\n");
+//					printf("\nChoisissez le numéro de l'opération que vous souhaitez effectuer : ");
+//					scanf("%d",&ch);
+//					switch(ch)
+//					{
+//						case 0:
+//							Affichage();
+//							break;
+//						case 1:
+//							RechercherProduits(T,51); 
+//							break;
+//						case 2:
+//							RechercherProduits(T,52);
+//							break;
+//						case 3:
+//							RechercherProduits(T,53);
+//							break;
+//					}
+//					
+//					getch();
+//				}while(ch!=1 || ch!=2 || ch!=3 || ch!=0);
+//				
+//					
+//				break;
+//			case 6://	6  - Alimenter le stock
+//					AlimenterStock(T);
+//				break;
+//			case 7://7  - Supprimer les produits
+//					SupprimerProduits(T);
+//				break;
+//			case 8://8  - Statistique de vente
+//							
+//				break;
+//
+//		}
+//		getch();
+//		goto ret;
 		
 		getch();
 		return 0;
