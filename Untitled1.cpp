@@ -299,10 +299,7 @@ typedef struct Produit
 		}
 	}
 
-	void printSizeOfIntArray(produit intArray[])
-	{
-	    printf("sizeof of the parameter is: %d\n", (int) sizeof(intArray));
-	}
+	
 
 int main()
 	{
@@ -320,10 +317,6 @@ int main()
 			strcpy(T[7].nom,"AHMAD");
 			strcpy(T[8].nom,"AICHA");
 			strcpy(T[9].nom,"ABDELLAH");
-			strcpy(T[6].nom,"CHRIF");
-			strcpy(T[7].nom,"AHMAD");
-			strcpy(T[8].nom,"AICHA");
-			strcpy(T[9].nom,"ABDELLAH");
 			
 			T[0].code = 1 ;
 			T[1].code = 2 ;
@@ -331,10 +324,6 @@ int main()
 			T[3].code = 4 ;
 			T[4].code = 5 ;
 			T[5].code = 9 ;
-			T[6].code = 7 ;
-			T[7].code = 6 ;
-			T[8].code = 8 ;
-			T[9].code = 10 ;
 			T[6].code = 7 ;
 			T[7].code = 6 ;
 			T[8].code = 8 ;
@@ -351,10 +340,6 @@ int main()
 			T[7].quantite = 32 ;
 			T[8].quantite = 52 ;
 			T[9].quantite = 2 ;
-			T[6].quantite = 7 ;
-			T[7].quantite = 32 ;
-			T[8].quantite = 52 ;
-			T[9].quantite = 2 ;
 			
 			T[0].prix = 19 ;
 			T[1].prix = 25 ;
@@ -366,10 +351,6 @@ int main()
 			T[7].prix = 61 ;
 			T[8].prix = 52 ;
 			T[9].prix = 21 ;
-			T[6].prix = 70 ;
-			T[7].prix = 61 ;
-			T[8].prix = 52 ;
-			T[9].prix = 21 ;
 		
 }
 		int totalPrix;
@@ -377,7 +358,7 @@ int main()
 		int ch ;
 		int n = 0;
 		ret:
-			printSizeOfIntArray(T);
+		
 			
 //		while(T[n].code!='\0')
 //		{
