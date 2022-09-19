@@ -3,9 +3,11 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
 
 	time_t tt = time(NULL);
 	struct tm* dt = localtime(&tt);
+	int n=10;
 
 typedef struct Date
 	{
@@ -26,11 +28,12 @@ typedef struct Produit
 	
 	int Affichage()
 	{
+		system("cls");
 		int choix ,ch ;
 		//affichage le menu
 		
 		printf("\n\n\n\n");
-		printf("\t*********************************************************\n");
+		printf("\t*********************************************************\a\n");
 		printf("\t*	1  - Ajouter un nouveau produit \t\t*\n");
 		printf("\t*	2  - Ajouter plusieurs nouveaux produits \t*\n");
 		printf("\t*	3  - Lister tous les produits\t\t\t*\n");//***?????????
@@ -48,7 +51,8 @@ typedef struct Produit
 		{	
 		printf("\nChoisissez le numéro de l'opération que vous souhaitez effectuer : ");
 		scanf("%d",&choix);
-		if(choix<0 && choix>9) Affichage();
+		if(choix<0 && choix>9) 
+		Affichage();
 		}while(choix<0 && choix>9);
 		
 		if(choix==0)
@@ -56,58 +60,65 @@ typedef struct Produit
 	
 		return choix;
 	}
-	void AjouterUnProduit(produit T[],int n)//1  - Ajouter un nouveau produit//son code, son nom, sa quantité, et son prix.
+	void AjouterUnProduit(produit T[],int *size)//1  - Ajouter un nouveau produit//son code, son nom, sa quantité, et son prix.
 	{
 		
-		produit p1;
+		
+		int i = *size;
+		printf("i = %d",i);
 		printf("Entrer le code : ");
-		scanf("%d",&p1.code);
+		scanf("%d",&T[i].code);
 		
 		printf("Entrer le nom : ");
-		scanf("%s",p1.nom);
+		scanf("%s",T[i].nom);
 		
 		printf("Entrer le quantite : ");
-		scanf("%d",&p1.quantite);
+		scanf("%d",&T[i].quantite);
 		
 		printf("Entrer le prix : ");
-		scanf("%d",&p1.prix);
+		scanf("%f",&T[i].prix);
 		
-		printf("%d %s %d %d",p1.code,p1.nom,p1.quantite,p1.prix);
+		printf("%d %s %d %2.f",T[i].code,T[i].nom,T[i].quantite,T[i].prix+(T[i].prix*0.15));
+		
+		(*size)++;
 		
 	}
 	
-	int AjouterPlusieursProduits()//2  - Ajouter plusieurs nouveaux produits
+	AjouterPlusieursProduits(produit p[],int *size)//2  - Ajouter plusieurs nouveaux produits
 	{
-		produit p[20];
-		int n=0;
-		while(n!=1000000)
+		
+		
+		do
 		{
-		printf("Entrez 0 dans le code lorsque vous avez termine\n");
-		printf("Entrer le code : ");
-		scanf("%d",&p[n].code);
-		//if(p[n].code==0) break ;
-		printf("Entrer le nom : ");
-		scanf("%s",p[n].nom);
-		
-		printf("Entrer le quantite : ");
-		scanf("%d",&p[n].quantite);
-		
-		printf("Entrer le prix : ");
-		scanf("%d",&p[n].prix);
-		n++;
-		printf("****************************\n");
-		}
-		return n;
-		
+			printf("Entrez 0 dans le code lorsque vous avez termine\n");
+			printf("Entrer le code : ");
+			scanf("%d",&p[*size].code);
+			if(p[*size].code==0) break ;
+			else
+			{
+				printf("Entrer le nom : ");
+				scanf("%s",p[*size].nom);
+				
+				printf("Entrer le quantite : ");
+				scanf("%d",&p[*size].quantite);
+				
+				printf("Entrer le prix : ");
+				scanf("%f",&p[*size].prix);
+				printf("****************************\n");
+					(*size)++;
+			}
+		}while(p[*size].code!=0);
+			
 	}
 	
-	void ListerProduitNom(produit T[])// 3  - Lister pour le nom
+	int ListerProduitNom(produit T[],int *size)// 3  - Lister pour le nom
 	{
+		system("cls");
 		produit tmp;
 		
-		for(int i=0; i<10; i++)
+		for(int i=0; i<*size; i++)
 		    {
-		        for(int j=0; j<10; j++)
+		        for(int j=0; j<*size; j++)
 		        {
 		            if(strcmp(T[i].nom, T[j].nom )< 0)
 		            {
@@ -117,21 +128,21 @@ typedef struct Produit
 		            }
 		        }
 		    }
-		
-		for(int i=0 ;i<=9;i++)
+		system("cls");
+		for(int i=0 ;i<*size;i++)
 		{
-				
-			printf("%d   |\t%s    \t|\t Prix = %.2fDH   |  \tprix TTC = %.2fDH  \n",T[i].code,T[i].nom,T[i].prix,T[i].prix+0.15 );
+			printf("%d   \t%s    \t\t Prix = %.2fDH     \tprix TTC = %.2fDH  \n",T[i].code,T[i].nom,T[i].prix,T[i].prix+0.15 );
 		}
 	}
 	///***********************************************
-	void ListerProduitPrix(produit T[]) //3  - Lister pour le prix 
+	void ListerProduitPrix(produit T[],int *size) //3  - Lister pour le prix 
 	{
+		
 		produit tmp;
  	
-		for(int i=0; i<10; i++)
+		for(int i=0; i<*size; i++)
 	    {
-	        for(int j=0; j<10; j++)
+	        for(int j=0; j<*size; j++)
 	        {
 	            if(T[i].prix > T[j].prix )
 	            {
@@ -142,11 +153,11 @@ typedef struct Produit
 	        }
 	    }
  		
-		
-		for(int i=0 ;i<=9;i++)
+		system("cls");
+		for(int i=0 ;i<*size;i++)
 		{
 				
-			printf("%d   |\t%s    \t|\t Prix = %.2fDH   |  \tprix TTC = %.2fDH  \n",T[i].code,T[i].nom,T[i].prix,T[i].prix+0.15 );
+			printf("%d   \t%s    \t\t Prix = %.2fDH     \tprix TTC = %.2fDH  \n",T[i].code,T[i].nom,T[i].prix,T[i].prix+0.15 );
 		}
 	}
 	
@@ -274,14 +285,14 @@ typedef struct Produit
 		}
 	}
 
-	void SupprimerProduits(produit T[])//7  - Supprimer les produits
+	void SupprimerProduits(produit T[],int *size)//7  - Supprimer les produits
 	{
 		c2:
 		int code , index=-1;
-		
+		int n = *size;
 		printf("\nEntrez le code de medicament Supprimer : ");
 		scanf("%d",&code);
-		for(int i=0;i<=9;i++) 
+		for(int i=0;i<=n;i++) 
 		{
 			if(T[i].code==code)
 				{
@@ -292,20 +303,32 @@ typedef struct Produit
 		if(index==-1) goto c2;
 		else
 		{
-			for(int i = index;i<9;i++)	
+			for(int i = index;i<n;i++)	
 			{
 				T[i] = T[i+1];
 			}		
 		}
+		(*size)--;
 	}
 
-	
+	bool CheckCode(produit T[],int code,int *size )
+	{
+		code = 1;
+		for(int i = 0;i<*size;i++)
+		{
+			if(T[i].code==code)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 int main()
 	{
 			produit T[100];
 			 
-		 {		 
+		 {	 
 		//DATA
 			strcpy(T[0].nom,"ABDELLAH");
 			strcpy(T[1].nom,"MAHDI");
@@ -356,26 +379,25 @@ int main()
 		int totalPrix;
 		int choix ;
 		int ch ;
-		int n = 0;
-		ret:
+		if(CheckCode(T,12,&n )==true) printf("true");
+		else printf("false");
 		
-			
-//		while(T[n].code!='\0')
-//		{
-//			n++;
-//		}
-//		printf("%d",sizeof(T));
-			
-			
+		
+//		ret:
+//		choix=-1 ;
 //		choix = Affichage();
-//		
+		
+		//system("cls");
+		
 //		switch(choix)
 //		{
 //			case 1://1  - Ajouter un nouveau produit
-//					AjouterUnProduit(T,0);			
+//					AjouterUnProduit(T,&n);	
+//						
 //				break;
 //			case 2://2  - Ajouter plusieurs nouveaux produits
-//					AjouterPlusieursProduits();
+//					 AjouterPlusieursProduits(T,&n);
+//					
 //				break;
 //			case 3://3  - Lister tous les produits
 //						do
@@ -389,16 +411,17 @@ int main()
 //							switch(ch)
 //							{
 //								case 0:
-//									Affichage();
+//									goto ret;
 //									break;
 //								case 1:
-//										ListerProduitNom(T);	
+//										ListerProduitNom(T,&n);	
 //									break;
 //								case 2:
-//									ListerProduitPrix(T);
+//									ListerProduitPrix(T,&n);
 //									break;
 //							}
-//													
+//							getch();
+//							system("cls");			
 //						}while(ch!=1 || ch!=2 || ch!=0);
 //				break;
 //			case 4://4  - Acheter produit
@@ -430,8 +453,8 @@ int main()
 //							RechercherProduits(T,53);
 //							break;
 //					}
-//					
-//					getch();
+//							getch();
+//							system("cls");
 //				}while(ch!=1 || ch!=2 || ch!=3 || ch!=0);
 //				
 //					
@@ -440,7 +463,7 @@ int main()
 //					AlimenterStock(T);
 //				break;
 //			case 7://7  - Supprimer les produits
-//					SupprimerProduits(T);
+//					SupprimerProduits(T,&n);
 //				break;
 //			case 8://8  - Statistique de vente
 //							
@@ -448,6 +471,7 @@ int main()
 //
 //		}
 //		getch();
+//		system("cls");
 //		goto ret;
 		
 		getch();
