@@ -72,7 +72,7 @@ typedef struct Produit
 		
 		do
 		{	
-		printf("\nChoisissez le numéro de l'opération que vous souhaitez effectuer : ");
+		printf("\nChoisissez le numero de l'operation que vous souhaitez effectuer : ");
 		scanf("%d",&choix);
 		if(choix<0 && choix>9) 
 		Menu();
@@ -83,7 +83,7 @@ typedef struct Produit
 	
 		return choix;
 	}
-	void AjouterUnProduit(produit T[],int *size)//1  - Ajouter un nouveau produit//son code, son nom, sa quantité, et son prix.
+	void AjouterUnProduit(produit T[],int *size)//1  - Ajouter un nouveau produit//son code, son nom, sa quantite, et son prix.
 	{
 		
 		int i = *size;
@@ -221,7 +221,7 @@ typedef struct Produit
 			
 			printf("Entrez la quantite que vous souhaitez acheter : ");
 			scanf("%d",&qnt);
-			if( T[index].quantite<=qnt ){
+			if( T[index].quantite<=qnt || qnt<=0){
 				printf("quantite insuffisante\n");
 			}
 			else
@@ -296,7 +296,7 @@ typedef struct Produit
 			}
 			if(index==-1) printf("Le code introuvable");
 		}
-		else if (a==53)//Etat du stock: permet d’afficher les produits dont la quantité est inférieure à 3
+		else if (a==53)//Etat du stock: permet d'afficher les produits dont la quantite est inferieure à 3
 		{
 			
 			for(int i=0;i<=9;i++)
@@ -310,35 +310,40 @@ typedef struct Produit
 		}
 	}
 	
-	void AlimenterStock(produit T[])//	6  - Alimenter le stock
+	void AlimenterStock(produit T[],int *size)//	6  - Alimenter le stock
 	{
 		int code ,index =-1,qnt;
 		c1:
+		int i = *size;
 		printf("Entrez le code modifie : ");
 		scanf("%d",&code);
-		for(int i=0;i<=9;i++) 
+		if(CheckCode(T,&code,&n)==false)
 		{
-			if(T[i].code==code)
+			printf(" Le code n'existe pase ");
+		}
+		else 
+		{
+			for(int i=0;i<=n;i++) 
+			{
+				if(T[i].code==code)
+					{
+						index = i;
+						break;
+					}
+			}
+			
+				printf("\nLe code = %d | Qnt  = %d \t\n",T[index].code,T[index].quantite );
+				
+				printf("\nEntrer le quantite : ");
+				scanf("%d",&qnt);
+				if(qnt<0) 
 				{
-					index = i;
-					break;
-				}
-		}
-		if(index==-1)
-		{
-			printf("le code introuvable\n");
-				goto c1;
-		}
-		else
-		{
-			printf("\nLe code = %d | Qnt  = %d \t\n",T[index].code,T[index].quantite );
-			
-			printf("\nEntrer le quantite : ");
-			scanf("%d",&T[index].quantite);
-			
-		
-			printf("\nLe code = %d | Qnt  = %d \t\n",T[index].code,T[index].quantite );
-			
+					printf(" La quantite n'existe pase");
+				}else
+				{
+					T[index].quantite +=qnt;
+					printf("\nLe code = %d | Qnt  = %d \t\n",T[index].code,T[index].quantite );
+				}			
 		}
 	}
 
@@ -467,11 +472,6 @@ int main()
 		int ch ;
 		
 		
-//		if(>-1){
-//			printf("true");
-//		}
-//		else printf("false");
-		
 		
 		ret:
 		choix=-1 ;
@@ -493,8 +493,8 @@ int main()
 						do
 						{
 							printf("Lister tous les produits par :\n");
-							printf("1 - lister tous les produits selon l’ordre alphabetique  croissant du nom.\n");
-							printf("2 - lister tous les produits selon l’ordre  decroissant du prix.\n");
+							printf("1 - lister tous les produits selon l'ordre alphabetique A� croissant du nom.\n");
+							printf("2 - lister tous les produits selon l'ordre A� decroissant du prix.\n");
 							printf("0 - Accueil");
 							printf("\nChoisissez le numero de l'operation que vous souhaitez effectuer : ");
 							scanf("%d",&ch);
@@ -523,10 +523,10 @@ int main()
 				{
 					printf("Rechercher les produits Par : \n");
 					printf("1 - Code.\n");
-					printf("2 - Quantité.\n");
-					printf("3 - Etat du stock: permet d’afficher les produits dont la quantité est inférieure à 3.\n");
+					printf("2 - Quantite.\n");
+					printf("3 - Etat du stock: permet d'afficher les produits dont la quantite est inferieure A� 3.\n");
 					printf("0 - Accueil\n");
-					printf("\nChoisissez le numéro de l'opération que vous souhaitez effectuer : ");
+					printf("\nChoisissez le numero de l'operation que vous souhaitez effectuer : ");
 					scanf("%d",&ch);
 					
 					switch(ch)
@@ -551,7 +551,7 @@ int main()
 					
 				break;
 			case 6://	6  - Alimenter le stock
-					AlimenterStock(T);
+					AlimenterStock(T,&n);
 				break;
 			case 7://7  - Supprimer les produits
 					SupprimerProduits(T,&n);
