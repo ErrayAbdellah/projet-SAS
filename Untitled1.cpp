@@ -7,7 +7,7 @@
    
 	time_t tt = time(NULL);
 	struct tm* dt = localtime(&tt);
-
+#define MAX 101
 typedef struct Date
 	{
 		int day;
@@ -18,18 +18,23 @@ typedef struct Date
 typedef struct Produit 
 	{
 		int code ;
-		char nom[40] ;
+		char nom[MAX] ;
 		int quantite ;
 		float prix ;
+		float prixTTC;
+		float prixTotal ;
 		date dat;
 	}produit;
-	
-	date dat2;
+
+	//date dat2;
 	
 	int n=10;
+	int sizePvendu=0;
 	int jour = dt->tm_mday;
-	float  prixTotal=0;
 	int somQnt;
+	
+	produit Pvendu[MAX];
+	
 	
 	bool CheckCode(produit T[],int *code,int *size )
 	{
@@ -82,7 +87,7 @@ typedef struct Produit
 	{
 		
 		int i = *size;
-		printf("i = %d",i);
+//		printf("i = %d",i);
 		printf("Entrer le code : ");
 		scanf("%d",&T[i].code);
 		
@@ -212,30 +217,46 @@ typedef struct Produit
 			}
 			
 			
-			printf("%d   |\t%s    \t|\t Prix = %.2fDH   |  \Qnt  = %d  \n",T[index].code,T[index].nom,T[index].prix+0.15,T[index].quantite );
+			printf("%d   |\t%s    \t|\t Prix = %.2fDH   |  \tQnt  = %d  \n",T[index].code,T[index].nom,T[index].prix+0.15,T[index].quantite );
 			
-			printf("Entrez la quantité que vous souhaitez acheter : ");
+			printf("Entrez la quantite que vous souhaitez acheter : ");
 			scanf("%d",&qnt);
-			
-			for(int i=0;i<10;i++)
-			{
-				if(T[i].code==code)
-				{
-					T[i].quantite -= qnt;
-					index = i;
-					break;
-				}
+			if( T[index].quantite<=qnt ){
+				printf("quantite insuffisante\n");
 			}
-			float prixTTC = T[index].prix+(T[index].prix*0.15);
-			
-			printf("%d   |\t%s    \t|\t Prix TTC = %.2fDH   |  \Qnt  = %d \t",T[index].code,T[index].nom,prixTTC*qnt,qnt );
-			printf("la date acheter %.2d/%.2d/%.4d ",dt->tm_mday,dt->tm_mon+1,dt->tm_year+1900);
-			T[index].dat.day  = dt->tm_mday;
-			T[index].dat.mont = dt->tm_mon+1;
-			T[index].dat.year = dt->tm_year+1900;
-			
-			prixTotal += prixTTC*qnt;
-			somQnt += qnt;
+			else
+			{
+				for(int i=0;i<10;i++)
+				{
+					if(T[i].code==code)
+					{
+						T[i].quantite -= qnt;
+						index = i;
+						break;
+					}
+				}
+				float prixTTC = T[index].prix+(T[index].prix*0.15);
+				
+				printf("%d   |\t%s    \t|\t Prix TTC = %.2fDH   |  \tQnt  = %d \t",T[index].code,T[index].nom,prixTTC*qnt,qnt );
+				printf("la date acheter %.2d/%.2d/%.4d ",dt->tm_mday,dt->tm_mon+1,dt->tm_year+1900);
+				
+				
+				somQnt += qnt;
+				int i=sizePvendu;
+				Pvendu[i].code = T[index].code;
+				strcpy(Pvendu[i].nom , T[index].nom);
+				Pvendu[i].prixTTC = prixTTC;
+				Pvendu[i].quantite = qnt;
+				Pvendu[i].prixTotal += prixTTC*qnt;
+				//dates
+				Pvendu[i].dat.day  = dt->tm_mday;
+				Pvendu[i].dat.mont = dt->tm_mon+1;
+				Pvendu[i].dat.year = dt->tm_year+1900;
+				
+				
+				i++;
+				sizePvendu = i;
+			}
 		
 	}
 
@@ -349,36 +370,48 @@ typedef struct Produit
 			}		
 		}
 		(*size)--;
+		printf("Delete success fulle");
 	}
 
 	void StatistiqueVente(produit T[],int *size)
 		{
 			float prixT = 0 , moyenne = 0 ;
-			float max =-1, min = 100000;
-			if(jour==dt->tm_mday)
-				prixT = prixTotal ;
+			float max =0 , min = 1000;
+			
+			for(int i=0;i<sizePvendu;i++)
+			{
+				if(Pvendu[i].dat.day==dt->tm_mday)
+				{
+					prixT += Pvendu[i].prixTotal ;
+					
+				}
+			}
+			
 			moyenne = prixT/somQnt ;
 			
-			for(int i=0;i<*size;i++)
-			if(T[i].prix > max)
-			max = T[i].prix;
+			for(int i=0;i<sizePvendu;i++)
+			{
+				if(Pvendu[i].prixTTC > max)
+				max = Pvendu[i].prixTTC;
+			}
 			
-			for(int i=0;i<*size;i++)
-			if(T[i].prix < min )
-			min = T[i].prix;
+			for(int i=0;i<sizePvendu;i++)
+			{
+				if(Pvendu[i].prixTTC < min )
+				min = Pvendu[i].prixTTC;
+			}
 			
-			printf("Afficher le total des prix des produits vendus en journée courante est = %.2f\n",prixTotal);	
-			printf("Afficher la moyenne des prix des produits vendus en journée courante est = %.2f\n",moyenne);
-			printf("Afficher le Max des prix des produits vendus en journée courante = %.2f\n",max);
-			printf("Afficher le Min des prix des produits vendus en journée courante est = %.2f\n",min);
-				
-				
+			
+			printf("Afficher le total des prix des produits vendus en journee courante est = %.2f\n",prixT);	
+			printf("Afficher la moyenne des prix des produits vendus en journee courante est = %.2f\n",moyenne);
+			printf("Afficher le Max des prix des produits vendus en journee courante = %.2f\n",max);
+			printf("Afficher le Min des prix des produits vendus en journee courante est = %.2f\n",min);
 			
 		}
 
 int main()
 	{
-			produit T[100];
+			produit T[MAX];
 			 
 		{	 
 		//DATA
@@ -443,7 +476,7 @@ int main()
 		ret:
 		choix=-1 ;
 		choix = Menu();
-		
+		if(choix ==0) return 0;
 		system("cls");
 		
 		switch(choix)
