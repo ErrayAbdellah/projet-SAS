@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
-
+   
 	time_t tt = time(NULL);
 	struct tm* dt = localtime(&tt);
 
@@ -67,7 +67,7 @@ typedef struct Produit
 		
 		do
 		{	
-		printf("\nChoisissez le numéro de l'opération que vous souhaitez effectuer : ");
+		printf("\nChoisissez le numÃ©ro de l'opÃ©ration que vous souhaitez effectuer : ");
 		scanf("%d",&choix);
 		if(choix<0 && choix>9) 
 		Menu();
@@ -78,7 +78,7 @@ typedef struct Produit
 	
 		return choix;
 	}
-	void AjouterUnProduit(produit T[],int *size)//1  - Ajouter un nouveau produit//son code, son nom, sa quantité, et son prix.
+	void AjouterUnProduit(produit T[],int *size)//1  - Ajouter un nouveau produit//son code, son nom, sa quantitÃ©, et son prix.
 	{
 		
 		int i = *size;
@@ -214,7 +214,7 @@ typedef struct Produit
 			
 			printf("%d   |\t%s    \t|\t Prix = %.2fDH   |  \Qnt  = %d  \n",T[index].code,T[index].nom,T[index].prix+0.15,T[index].quantite );
 			
-			printf("Entrez la quantité que vous souhaitez acheter : ");
+			printf("Entrez la quantitÃ© que vous souhaitez acheter : ");
 			scanf("%d",&qnt);
 			
 			for(int i=0;i<10;i++)
@@ -275,7 +275,7 @@ typedef struct Produit
 			}
 			if(index==-1) printf("Le code introuvable");
 		}
-		else if (a==53)//Etat du stock: permet d’afficher les produits dont la quantité est inférieure à 3
+		else if (a==53)//Etat du stock: permet dâ€™afficher les produits dont la quantitÃ© est infÃ©rieure Ã  3
 		{
 			
 			for(int i=0;i<=9;i++)
@@ -367,10 +367,10 @@ typedef struct Produit
 			if(T[i].prix < min )
 			min = T[i].prix;
 			
-			printf("Afficher le total des prix des produits vendus en journée courante est = %.2f\n",prixTotal);	
-			printf("Afficher la moyenne des prix des produits vendus en journée courante est = %.2f\n",moyenne);
-			printf("Afficher le Max des prix des produits vendus en journée courante = %.2f\n",max);
-			printf("Afficher le Min des prix des produits vendus en journée courante est = %.2f\n",min);
+			printf("Afficher le total des prix des produits vendus en journÃ©e courante est = %.2f\n",prixTotal);	
+			printf("Afficher la moyenne des prix des produits vendus en journÃ©e courante est = %.2f\n",moyenne);
+			printf("Afficher le Max des prix des produits vendus en journÃ©e courante = %.2f\n",max);
+			printf("Afficher le Min des prix des produits vendus en journÃ©e courante est = %.2f\n",min);
 				
 				
 			
@@ -460,8 +460,8 @@ int main()
 						do
 						{
 							printf("Lister tous les produits par :\n");
-							printf("1 - lister tous les produits selon l’ordre alphabetique  croissant du nom.\n");
-							printf("2 - lister tous les produits selon l’ordre  decroissant du prix.\n");
+							printf("1 - lister tous les produits selon lâ€™ordre alphabetiqueÂ  croissant du nom.\n");
+							printf("2 - lister tous les produits selon lâ€™ordreÂ  decroissant du prix.\n");
 							printf("0 - Accueil");
 							printf("\nChoisissez le numero de l'operation que vous souhaitez effectuer : ");
 							scanf("%d",&ch);
@@ -490,10 +490,10 @@ int main()
 				{
 					printf("Rechercher les produits Par : \n");
 					printf("1 - Code.\n");
-					printf("2 - Quantité.\n");
-					printf("3 - Etat du stock: permet d’afficher les produits dont la quantité est inférieure à 3.\n");
+					printf("2 - QuantitÃ©.\n");
+					printf("3 - Etat du stock: permet dâ€™afficher les produits dont la quantitÃ© est infÃ©rieure Ã  3.\n");
 					printf("0 - Accueil\n");
-					printf("\nChoisissez le numéro de l'opération que vous souhaitez effectuer : ");
+					printf("\nChoisissez le numÃ©ro de l'opÃ©ration que vous souhaitez effectuer : ");
 					scanf("%d",&ch);
 					
 					switch(ch)
